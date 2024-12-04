@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Evaluation Add</title>
+    {% include 'Evaluation/header.html' %}
+<body>
+
+    <h1>Confirmer la suppression</h1>
+<p>Êtes-vous sûr de vouloir supprimer "{{ object.note }}" ?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Supprimer</button>
+</form> 
+</body>
+<footer>
+    {% include 'Evaluation/footer.html' %}
+</footer>
+</html>

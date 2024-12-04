@@ -1,0 +1,213 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Inscription</title>
+</head>
+<body>
+    <h2>Inscription</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">S'enregistrer</button>
+    </form>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    {% load static %}
+    {% include 'users/header.html' %}
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hero Section */
+        .hero-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        .hero-header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #89be24;
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+
+        .hero-header h1:hover {
+            color: #668e1a; /* Couleur Pistache au survol */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container for the login form and other content */
+        .container-fluid {
+            max-width: 100%;
+        }
+
+        /* Login Form Styling */
+        .login-form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .login-form input,
+        .login-form button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 30px;
+            border: 2px solid #89be24; /* Contour pistache */
+            font-size: 1rem;
+            margin-bottom: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-form input:focus,
+        .login-form button:focus {
+            border-color:  #89be24; /* Bleu lors du focus */
+            box-shadow: 0 0 5px  #89be24(0, 123, 255, 0.5);
+        }
+
+        .login-form input::placeholder {
+            color: #888;
+        }
+
+        .login-form button {
+            background-color:  #89be24;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-form button:hover {
+            background-color: #218838; /* Vert plus foncé au survol */
+        }
+
+        /* Positioning the login form and aligning it in the center */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Section for the carousel */
+        .carousel-inner .carousel-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .carousel-item a {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .carousel-item a:hover {
+            background-color: #28a745; /* Pistache au survol */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar start -->
+    <div class="container-fluid fixed-top">
+        <div class="container topbar bg-primary d-none d-lg-block">
+            <div class="d-flex justify-content-between">
+                <div class="top-info ps-2">
+                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#"
+                            class="text-white">123 Street, Tunisia</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
+                            class="text-white">Fruitables@gmail.com</a></small>
+                </div>
+                <div class="top-link pe-2">
+                    <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar End -->
+    <br>
+    
+    <!-- Hero Section with Centered Welcome Text -->
+    <div class="hero-header">
+        <div class="login-container">
+            <div class="login-form">
+                <h1>S'inscription sur Fruitables</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">S'inscrire'</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carousel Section -->
+    <!--<div class="container-fluid py-5 mb-5 hero-header">
+        <div class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-md-12 col-lg-7">
+                    <h1 class="mb-5 display-3 text-primary">Welcome back a Fruitables</h1>
+                    <div class="position-relative mx-auto">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-80" style="top: 0; right: 20%;">Se connecter</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-5">
+                    <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active rounded">
+                                <a href="#" class="btn px-4 py-2 text-white rounded">Fruites</a>
+                            </div>
+                            <div class="carousel-item rounded">
+                                <a href="#" class="btn px-4 py-2 text-white rounded">Vesitables</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+   <br>
+   <br>
+   <br>
+   <br>
+    <footer>
+
+        {% include 'users/footer.html' %}
+
+        Contactez-nous : <a href="mailto:Beat@gmail.com">Beat@gmail.com</a>
+    </footer>
+</body>
+</html>
+
+

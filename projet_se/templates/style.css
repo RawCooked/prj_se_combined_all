@@ -1,0 +1,77 @@
+body {
+    margin-top: 20px;
+}
+
+.chat-online {
+    color: #34ce57;
+}
+
+.chat-offline {
+    color: #e4606d;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    max-height: 400px;
+    overflow-y: scroll;
+    padding: 10px;  /* Optional: Add padding to the container */
+}
+
+.chat-message-left,
+.chat-message-right {
+    display: flex;
+    align-items: flex-start; /* Aligns items vertically */
+    margin-bottom: 1rem; /* Space between messages */
+    max-width: 80%; /* Limit the width of each message */
+}
+
+.chat-message-left {
+    margin-right: auto;
+}
+
+.chat-message-right {
+    flex-direction: row-reverse;
+    margin-left: auto;
+}
+
+.chat-message-left .message-content {
+    margin-left: 10px;
+    background-color: #f1f1f1; /* Background for the left-side message */
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%; /* Limit the width of the message */
+}
+
+.chat-message-right .message-content {
+    margin-right: 10px;
+    background-color: #cce5ff; /* Background for the right-side message */
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%; /* Limit the width of the message */
+}
+
+.chat-message-left img,
+.chat-message-right img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.py-3 {
+    padding-top: 1rem!important;
+    padding-bottom: 1rem!important;
+}
+
+.px-4 {
+    padding-right: 1.5rem!important;
+    padding-left: 1.5rem!important;
+}
+
+.flex-grow-0 {
+    flex-grow: 0!important;
+}
+
+.border-top {
+    border-top: 1px solid #dee2e6!important;
+}

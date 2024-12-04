@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    {% load static %}
+    {% include 'users/header.html' %}
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hero Section */
+        .hero-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        .hero-header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #89be24;
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+
+        .hero-header h1:hover {
+            color: #668e1a; /* Couleur Pistache au survol */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container for the login form and other content */
+        .container-fluid {
+            max-width: 100%;
+        }
+
+        /* Login Form Styling */
+        .login-form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .login-form input,
+        .login-form button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 30px;
+            border: 2px solid #89be24; /* Contour pistache */
+            font-size: 1rem;
+            margin-bottom: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-form input:focus,
+        .login-form button:focus {
+            border-color:  #89be24; /* Bleu lors du focus */
+            box-shadow: 0 0 5px  #89be24(0, 123, 255, 0.5);
+        }
+
+        .login-form input::placeholder {
+            color: #888;
+        }
+
+        .login-form button {
+            background-color:  #89be24;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-form button:hover {
+            background-color: #218838; /* Vert plus foncé au survol */
+        }
+
+        /* Positioning the login form and aligning it in the center */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Section for the carousel */
+        .carousel-inner .carousel-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .carousel-item a {
+            padding: 10px 20px;
+            background-color: #89be24;
+            color: #fff;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .carousel-item a:hover {
+            background-color: #28a745; /* Pistache au survol */
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #89be24;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: white;
+            font-size: 1.1rem;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #28a745;
+        }
+
+        .navbar .top-button {
+            margin-left: auto;
+        }
+    </style>
+</head>
+
+<body>
+     <!-- Navbar start -->
+     <div class="navbar">
+        <div class="container d-flex justify-content-between">
+            <div class="top-info">
+                <small><i class="fas fa-map-marker-alt me-2 text-white"></i><a href="#" class="text-white">123 Street, Tunisia</a></small>
+                <small><i class="fas fa-envelope me-2 text-white"></i><a href="#" class="text-white">Fruitables@gmail.com</a></small>
+            </div>
+            <a href="{% url 'client_dashboard' %}" class="top-button">Retourner a la page d'aceuille</a>
+        </div>
+    </div>
+    <!-- Navbar End -->
+    <!-- Hero Header Section -->
+    <div class="hero-header">
+        <h1>Le Profil</h1>
+    </div>
+
+    <div class="login-container">
+        <div class="login-form">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="message {{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <h1>Informations du profil</h1>
+            <p><strong>Email :</strong> {{ user.email }}</p>
+            <p><strong>Prénom :</strong> {{ user.first_name }}</p>
+            <p><strong>Nom :</strong> {{ user.last_name }}</p>
+            <!-- Ajoutez d'autres informations si nécessaire -->
+            <a href="{% url 'liste_users' %}">Retour à la liste des utilisateurs</a>
+        </div>
+    </div>
+
+
+
+    <footer>
+
+        {% include 'users/footer.html' %}
+
+        Contactez-nous : <a href="mailto:Beat@gmail.com">Fruitables@gmail.com</a>
+    </footer>
+
+</body>
+
+</html>

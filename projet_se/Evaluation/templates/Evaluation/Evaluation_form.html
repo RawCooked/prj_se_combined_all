@@ -1,0 +1,155 @@
+<!-- <h1>Bienvenue {{ user.first_name }} !</h1>
+<p>Vous êtes un user.</p> -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}  
+    {% include 'Evaluation/header.html' %}
+</head>
+<body>
+    <!-- Navbar start -->
+    <div class="container-fluid fixed-top">
+        <div class="container topbar bg-primary d-none d-lg-block">
+            <div class="d-flex justify-content-between">
+                <div class="top-info ps-2">
+                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
+                </div>
+                <div class="top-link pe-2">
+                           
+                        <a href="{% url 'produit_list' %}" class="text-white" >Go Back</a>
+
+                </div>
+            </div>
+        </div>
+     
+   
+    
+    <style>
+        .page-header {
+            background-color: #343a40; /* Replace with any solid color */
+            background-image: linear-gradient(135deg, #059023, #ffda22); /* Optional gradient background */
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        .page-header h1 {
+            color: white;
+            font-weight: bold;
+        }
+        .breadcrumb-item a {
+            color: #ffc107; /* Link color for breadcrumb */
+        }
+        .breadcrumb-item.active {
+            color: white; /* Active item color */
+        }
+    </style>
+        <center><h1>Make A Review</h1></center>
+
+    <form method="post" >
+        {% csrf_token %}  
+        <div class="evaluation-form-container">
+            <div class="form-fields">
+                {{ form.as_p }} <!-- This will render any other fields dynamically -->
+            </div>
+            <center>
+            <div class="form-actions">
+                <!-- Post Comment Button -->
+                <button type="submit" class="btn submit-btn border border-secondary text-white rounded-pill px-4 py-3">
+                 Post
+                </button>
+                
+                <!-- Cancel Link -->            </div>            </center>   
+
+        </div>
+        
+        <style>
+            /* General Form Container */
+            .evaluation-form-container {
+                background-color: #f8f9fa;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                max-width: 600px;
+                margin: 20px auto;
+            }
+        
+            /* Styling form fields */
+            .form-fields {
+                margin-bottom: 20px;
+            }
+        
+            .form-fields p {
+                margin: 10px 0;
+                font-size: 16px;
+            }
+        
+            /* Submit Button Styling (Orange) */
+            .submit-btn {
+                background-color: #ff5722; /* Orange color */
+                color: white; /* White text color */
+                font-weight: bold;
+                text-transform: uppercase;
+                transition: background-color 0.3s ease;
+                border: none;
+            }
+        
+            .submit-btn:hover {
+                background-color: #e64a19; /* Darker orange on hover */
+            }
+        
+            /* Cancel Link Styling */
+            .cancel-link {
+                display: inline-block;
+                margin-top: 15px;
+                font-size: 16px;
+                color: #000001;
+                text-decoration: none;
+                font-weight: bold;
+                transition: color 0.3s ease;
+            }
+        
+            .cancel-link:hover {
+                color: #343a40;
+            }
+        
+            /* Add space between the form and buttons */
+            .form-actions {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        
+            /* Optional: Adjusting the width of the form */
+            .evaluation-form-container input,
+            .evaluation-form-container select,
+            .evaluation-form-container textarea {
+                width: 100%;
+                margin-bottom: 10px;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+            }
+        
+            .evaluation-form-container input:focus,
+            .evaluation-form-container select:focus,
+            .evaluation-form-container textarea:focus {
+                border-color: #ff5722; /* Match border color to button */
+                outline: none;
+            }
+        </style>
+        
+        
+    </form>
+   
+    <footer>
+
+        {% include 'Evaluation/footer.html' %}
+
+        Contactez-nous : <a href="mailto:Beat@gmail.com">Beat@gmail.com</a>
+    </footer>
+
+</body>
+</html>

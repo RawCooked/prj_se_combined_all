@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}  
+    {% include 'Evaluation/header.html' %}
+</head>
+<body>
+    <!-- Navbar start -->
+    <div class="container-fluid fixed-top">
+        <div class="container topbar bg-primary d-none d-lg-block">
+            <div class="d-flex justify-content-between">
+                <div class="top-info ps-2">
+                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
+                </div>
+                <div class="top-link pe-2">
+                    <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Beat</h1></a>
+                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars text-primary"></span>
+                </button>
+                <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto">
+                        <a href="{% url 'client_dashboard' %}" class="nav-item nav-link ">Home</a>
+                        <a href="{% url 'shop' %}"class="nav-item nav-link">Products</a>
+                        <a href="{% url 'evaluation_list' %}" class="nav-item nav-link active">Reviews</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                <a href="cart.html" class="dropdown-item">Cart</a>
+                                <a href="chackout.html" class="dropdown-item">Chackout</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        {% load static %}
+                        <a href="{% url 'messages_list' %}"class="nav-item nav-link">Messages</a>
+                    </div>
+                    <div class="d-flex m-3 me-0">
+                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                        <a href="#" class="position-relative me-4 my-auto">
+                            <i class="fa fa-shopping-bag fa-2x"></i>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                        </a>
+                        <a href="#" class="my-auto">
+                            <i class="fas fa-user fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">Evaluation</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+            <li class="breadcrumb-item active text-white">Contact</li>
+        </ol>
+    </div>
+
+    <style>
+        .page-header {
+            background-color: #343a40; /* Replace with any solid color */
+            background-image: linear-gradient(135deg, #059023, #ffda22); /* Optional gradient background */
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        .page-header h1 {
+            color: white;
+            font-weight: bold;
+        }
+        .breadcrumb-item a {
+            color: #ffc107; /* Link color for breadcrumb */
+        }
+        .breadcrumb-item.active {
+            color: white; /* Active item color */
+        }
+    </style>
+
+    <!-- Navbar End -->
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Evaluations</h2>
+            
+            <!-- Formulaire de Recherche -->
+            <form method="get" action="{% url 'evaluation_list' %}" class="d-flex">
+                <input type="text" name="search" class="form-control me-2" placeholder="Search evaluations..." value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+
+            <!-- Formulaire de Tri -->
+            <form method="get" action="{% url 'evaluation_list' %}">
+                <select name="sort" class="form-select" onchange="this.form.submit()">
+                    <option value="" disabled selected>Sort By</option>
+                    <option value="date" {% if request.GET.sort == 'date' %}selected{% endif %}>Date</option>
+                    <option value="note" {% if request.GET.sort == 'note' %}selected{% endif %}>Note</option>
+                </select>
+            </form>
+            
+            <form method="get" action="{% url 'evaluation_create' %}">
+                <button type="submit" class="btn btn-success">Add New Evaluation</button>
+            </form>
+        </div>
+
+        <div class="row">
+            {% for evaluation in evaluations %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ evaluation.commentaire }}</h4>
+                            <p class="text-muted">Date: {{ evaluation.date_evaluation|date:"Y-m-d" }}</p>
+                            <p class="text-muted">Note: {{ evaluation.note }}/5</p>
+                            <div class="d-flex justify-content-between">
+                                <!-- Update Button -->
+                                <form method="get" action="{% url 'evaluation_update' pk=evaluation.pk %}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                </form>
+                                <!-- Delete Button -->
+                                <form method="post" action="{% url 'evaluation_delete' pk=evaluation.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <style>
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .btn-sm {
+            padding: 0.5rem 0.75rem;
+        }
+    </style>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+    <footer>
+        {% include 'Evaluation/footer.html' %}
+        Contactez-nous : <a href="mailto:Beat@gmail.com">Beat@gmail.com</a>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+        {% load static %}  
+        {% include 'header.html' %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="csrf-token" content="{{ csrf_token }}">
+  
+</head>
+<body>
+    <!-- Navbar start -->
+    <div class="container-fluid fixed-top">
+        <div class="container topbar bg-primary d-none d-lg-block">
+            <div class="d-flex justify-content-between">
+                <div class="top-info ps-2">
+                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
+                </div>
+                <div class="top-link pe-2">
+                    <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                </div>
+            </div>
+        </div>
+        <body>
+            <!-- Navbar start -->
+                <div class="container px-0">
+                    <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                        <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Beat</h1></a>
+                        <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                            <span class="fa fa-bars text-primary"></span>
+                        </button>
+                        <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                            <div class="navbar-nav mx-auto">
+                                <a href="{% url 'client_dashboard' %}" class="nav-item nav-link ">Home</a>
+                                <a href="{% url 'shop' %}"class="nav-item nav-link">Products</a>
+                                <a href="{% url 'ev' %}" class="nav-item nav-link ">Reviews</a>
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                        <a href="cart.html" class="dropdown-item">Cart</a>
+                                        <a href="chackout.html" class="dropdown-item">Chackout</a>
+                                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                        <a href="404.html" class="dropdown-item">404 Page</a>
+                                    </div>
+                                </div>
+                                {% load static %}
+        
+                                <a href="{% url 'messages_list' %}"class="nav-item nav-link active">Messages</a>
+                            </div>
+                    <div class="d-flex m-3 me-0">
+                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                        <a href="#" class="position-relative me-4 my-auto">
+                            <i class="fa fa-shopping-bag fa-2x"></i>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                        </a>
+                        <a href="#" class="my-auto">
+                            <i class="fas fa-user fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+     
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">Messages</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active text-white">messages</li>
+        </ol>
+    </div>
+    
+    <style>
+        .page-header {
+            background-color: #343a40; /* Replace with any solid color */
+            background-image: linear-gradient(135deg, #059023, #ffda22); /* Optional gradient background */
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        .page-header h1 {
+            color: white;
+            font-weight: bold;
+        }
+        .breadcrumb-item a {
+            color: #ffc107; /* Link color for breadcrumb */
+        }
+        .breadcrumb-item.active {
+            color: white; /* Active item color */
+        }
+       </style >
+
+<main class="content">
+    <div class="container p-0">
+
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-12 col-lg-5 col-xl-3 border-right">
+                    <div class="px-4 d-none d-md-block">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="text" id="search-input" class="form-control my-3" placeholder="Search...">
+                            </div>
+                            <button id="search-button" class="btn btn-primary ml-2">Search</button>
+                        </div>
+                        <div id="user-list" class="user-list mt-2"></div>
+                    </div>
+                    <hr class="d-block d-lg-none mt-1 mb-0">
+                </div>
+                
+                <div class="col-12 col-lg-7 col-xl-9">
+                    <div class="py-2 px-4 border-bottom d-none d-lg-block">
+                        <div class="d-flex align-items-center py-1">
+                            <div class="position-relative">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40" id="recipient-avatar">
+                            </div>
+                            <div id="recipient-name" class="ml-2"></div> <!-- Affiche le nom du destinataire ici -->
+                         <!-- Barre de recherche -->
+<input type="text" id="searchBox" class="form-control my-3" placeholder="Rechercher des messages..." onkeyup="searchMessages()">
+
+<style>
+    #searchBox {
+        float: left; /* Aligne la barre de recherche à droite */
+        width: 300px; /* Détermine la largeur de la barre de recherche */
+        margin-right: 10px; /* Ajoute un espace à droite pour l'esthétique */
+    }
+</style>
+                            
+                        </div>
+                    </div>
+                    <div class="position-relative">
+                        <div class="chat-messages p-4" id="messages-container" style="max-height: 600px; overflow-y: auto; border: 1px solid #ddd;">
+                            <!-- Les messages seront chargés ici via JavaScript -->
+                        </div>
+
+                        <div class="flex-grow-0 py-3 px-4 border-top">
+                            <div class="input-group">
+                                <form id="message-form" method="post" onsubmit="return false;" class="w-100 d-flex">
+                                    {% csrf_token %}
+                                    <!-- Champ caché pour l'ID de l'utilisateur connecté -->
+                                    <input type="hidden" id="sender-id" value="{{ user.id }}">
+                                    <input type="hidden" id="recipient-id" name="recipient_id">
+                                    
+                                    <!-- Input pour le message -->
+                                    <input type="text" id="message-input" class="form-control" placeholder="Type your message">
+                                    
+                                    <!-- Bouton Send -->
+                                    <button type="submit" class="btn btn-primary ms-2" id="send-button">Send</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+<footer>
+
+    {% include 'footer.html' %}
+</footer>
+</html>
+
+<script>
+function loadMessages(recipientId, userId) {
+    if (!recipientId || !userId) {
+        console.error('ID du destinataire ou de l\'utilisateur manquant');
+        alert('ID du destinataire ou de l\'utilisateur manquant');
+        return;
+    }
+
+    fetch(`/messages/get_messages/?recipientId=${recipientId}&userId=${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur réseau : ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            console.error('Erreur serveur:', data.error);
+            alert('Une erreur est survenue lors de la récupération des messages.');
+            return;
+        }
+
+        const messages = data.messages;
+        const messagesContainer = document.getElementById('messages-container');
+        messagesContainer.innerHTML = ''; // Efface les anciens messages
+
+        if (messages.length === 0) {
+            messagesContainer.innerHTML = '<p>Aucun message à afficher.</p>';
+        } else {
+            // Ajoute chaque message dans le conteneur
+            // Ajoute chaque message dans le conteneur
+            messages.forEach(message => {
+    console.log('Message:', message);
+
+    // Détermine si le message appartient à l'utilisateur connecté
+    const isCurrentUser = parseInt(message.sender_id) === parseInt(userId);
+    console.log(`isCurrentUser (sender_id: ${message.sender_id} === userId: ${userId}):`, isCurrentUser);
+
+    // Positionne correctement le message
+    const messagePosition = isCurrentUser ? 'chat-message-right mb-4' : 'chat-message-left pb-4';
+    const avatarSrc = isCurrentUser ? 'https://bootdey.com/img/Content/avatar/avatar1.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png';
+    const senderName = isCurrentUser ? 'You' : message.sender;
+    const messageClass = isCurrentUser ? 'mr-3' : 'ml-3';
+
+    // Format de l'heure (AM/PM)
+    const messageDate = new Date(message.created_at);
+    const hours = messageDate.getHours();
+    const minutes = messageDate.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedTime = `${hours % 12 || 12}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+
+       const messageHTML = `
+    <div class="${messagePosition}" data-message-id="${message.id}">
+        <div>
+            <img src="${avatarSrc}" class="rounded-circle mr-1" alt="${senderName.trim()}" width="40" height="40">
+            <div class="text-muted small text-nowrap mt-2">${formattedTime}</div>
+        </div>
+        <div class="flex-shrink-1 bg-light rounded py-2 px-3 ${messageClass}">
+            <div class="font-weight-bold mb-1">${senderName}</div>
+            <div class="message-content">${message.content.trim()}</div>
+            <div class="mt-2">
+                <button class="btn btn-sm btn-warning" onclick="editMessage(${message.id})">Modifier</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteMessage(${message.id}, ${message.recip_id}, ${message.sender_id})">Supprimer</button>
+            </div>
+        </div>
+    </div>
+`;
+    messagesContainer.innerHTML += messageHTML;
+});
+
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors du chargement des messages:', error.message);
+        alert('Une erreur est survenue lors du chargement des messages.');
+    });
+}
+
+document.querySelector('#message-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    // Récupérer l'ID de l'utilisateur connecté depuis le champ caché
+    const senderIdElement = document.getElementById('sender-id');
+    if (senderIdElement) {
+        const userId = senderIdElement.value;  // Récupérer l'ID de l'utilisateur
+        const recipientId = document.getElementById('recipient-id').value;
+        const content = document.getElementById('message-input').value;
+
+        if (recipientId && content) {
+            fetch('/messages/send_message/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ recipient_id: recipientId, content: content })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('message-input').value = '';
+                    loadMessages(recipientId, userId);  // Charger les messages après l'envoi
+                } else {
+                    alert('Erreur: ' + (data.error || 'Message sending failed'));
+                }
+            })
+            .catch(error => {
+                alert('Une erreur est survenue lors de l\'envoi du message.');
+                console.error('Error:', error);
+            });
+        } else {
+            alert('Veuillez remplir les champs destinataire et contenu du message.');
+        }
+    } else {
+        console.error('L\'élément sender-id est manquant.');
+    }
+});
+
+document.querySelector('#search-button').addEventListener('click', function() {
+    const query = document.querySelector('#search-input').value;
+
+    if (query.length > 2) {
+        fetch(`/messages/search_users/?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(users => {
+                let userList = document.getElementById('user-list');
+                userList.innerHTML = ''; // Réinitialise la liste des utilisateurs
+
+                users.forEach(user => {
+                    let userItem = document.createElement('a');
+                    userItem.href = "#";
+                    userItem.classList.add('list-group-item', 'list-group-item-action', 'border-0');
+                    userItem.dataset.userId = user.id;
+
+                    let badge = document.createElement('div');
+                    badge.classList.add('badge', 'bg-success', 'float-right');
+                    badge.textContent = user.unread_count || 0; // Utilise le champ unread_count du modèle Message
+
+                    let dFlex = document.createElement('div');
+                    dFlex.classList.add('d-flex', 'align-items-start');
+
+                    let img = document.createElement('img');
+                    img.src = "https://bootdey.com/img/Content/avatar/avatar5.png";
+                    img.classList.add('rounded-circle', 'mr-1');
+                    img.alt = user.username;
+                    img.width = 40;
+                    img.height = 40;
+
+                    let textDiv = document.createElement('div');
+                    textDiv.classList.add('flex-grow-1', 'ml-3');
+                    textDiv.textContent = user.username;
+
+                    let status = document.createElement('div');
+                    status.classList.add('small');
+                    status.innerHTML = '<span class="fas fa-circle chat-online"></span> Online';
+
+                    textDiv.appendChild(status);
+                    dFlex.appendChild(img);
+                    dFlex.appendChild(textDiv);
+                    userItem.appendChild(badge);
+                    userItem.appendChild(dFlex);
+
+                    userList.appendChild(userItem);
+                    
+                    userItem.addEventListener('click', () => {
+                        const recipientId = userItem.dataset.userId;  // Récupère l'ID du destinataire
+                        const userId = document.getElementById('sender-id').value; // Récupère l'ID de l'utilisateur connecté
+                        const recipientName = user.username;  // Récupère le nom de l'utilisateur
+                          document.getElementById('recipient-name').textContent = recipientName;  // Affiche le nom du destinataire
+                          document.getElementById('recipient-avatar').src = "https://bootdey.com/img/Content/avatar/avatar5.png";
+                        document.getElementById('recipient-id').value = recipientId;  // Met à jour le champ caché
+                        loadMessages(recipientId, userId);  // Recharge les messages avec le destinataire et l'utilisateur connecté
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Erreur lors de la recherche des utilisateurs:', error);
+            });
+    }
+});
+function deleteMessage(messageId, recipientId, senderId) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer ce message ?")) {
+        console.log('Message ID:', messageId); // Vérifiez si l'ID est défini
+        console.log('Recipient ID:', recipientId); // Vérifiez le recipientId
+        console.log('Sender ID:', senderId); // Vérifiez le senderId
+
+        fetch(`/messages/delete_message/${messageId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Vérifiez ici la réponse du serveur
+            if (data.success) {
+                // Recharge les messages après la suppression en utilisant les IDs
+                loadMessages(recipientId, senderId); // recharge les messages avec les bons IDs
+            } else {
+                alert('Erreur: Impossible de supprimer le message.');
+            }
+        })
+        .catch(error => {
+            alert('Une erreur est survenue lors de la suppression du message.');
+            console.error('Error:', error);
+        });
+    }
+}
+function editMessage(messageId) {
+    const messageElement = document.querySelector(`[data-message-id='${messageId}']`);
+    console.log(messageElement);  // Vérifie si ce message existe bien
+
+    if (!messageElement) {
+        console.error(`Message avec l'ID ${messageId} introuvable.`);
+        return;
+    }
+    
+    const contentElement = messageElement.querySelector('.message-content');
+    
+    // Crée un champ de texte pour éditer le contenu du message
+    const inputField = document.createElement('input');
+    inputField.type = 'text';
+    inputField.value = contentElement.textContent.trim();
+    
+    // Sauvegarde le contenu original au cas où on veut annuler
+    const originalContent = contentElement.textContent.trim();
+    
+    contentElement.innerHTML = '';  // Vide le contenu actuel
+    contentElement.appendChild(inputField);
+    
+    // Masque les boutons de modification et suppression
+    const editDeleteButtons = messageElement.querySelectorAll('.btn');
+    editDeleteButtons.forEach(button => button.style.display = 'none');
+    
+    // Crée un bouton "Valider" pour enregistrer les modifications
+    const validateButton = document.createElement('button');
+    validateButton.classList.add('btn', 'btn-success', 'btn-sm');
+    validateButton.textContent = 'Valider';
+    
+    // Crée un bouton "Annuler" pour annuler les modifications
+    const cancelButton = document.createElement('button');
+    cancelButton.classList.add('btn', 'btn-secondary', 'btn-sm');
+    cancelButton.textContent = 'Annuler';
+    
+    contentElement.appendChild(validateButton);
+    contentElement.appendChild(cancelButton);
+    
+    inputField.focus();
+
+    // Lorsqu'on clique sur "Valider", sauvegarde les modifications
+    validateButton.addEventListener('click', () => {
+        const newContent = inputField.value.trim();
+        if (newContent !== originalContent) {
+            updateMessage(messageId, newContent);  // Si le contenu a changé, le mettre à jour
+        }
+        // Restaure le contenu du message en mode texte (non modifiable)
+        contentElement.innerHTML = newContent;
+        
+        // Masque les boutons "Valider" et "Annuler" et montre ceux de modification/suppression
+        validateButton.style.display = 'none';
+        cancelButton.style.display = 'none';
+        editDeleteButtons.forEach(button => button.style.display = 'inline-block');
+    });
+
+    // Annule l'édition si l'utilisateur clique sur "Annuler"
+    cancelButton.addEventListener('click', () => {
+        // Restaure le contenu original du message
+        contentElement.innerHTML = originalContent;
+        
+        // Masque les boutons "Valider" et "Annuler" et montre ceux de modification/suppression
+        validateButton.style.display = 'none';
+        cancelButton.style.display = 'none';
+        editDeleteButtons.forEach(button => button.style.display = 'inline-block');
+    });
+}
+
+
+function updateMessage(messageId, newContent) {
+    fetch(`/messages/update_message/${messageId}/`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: newContent })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);  // Affiche le message de succès
+            // Met à jour l'interface utilisateur, par exemple, afficher le contenu mis à jour
+        } else {
+            // Afficher l'erreur retournée par le serveur
+            alert(data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Une erreur s\'est produite.');
+    });
+}
+
+function loadMessagess(recipientId, userId) {
+    if (!recipientId || !userId) {
+        console.error('ID du destinataire ou de l\'utilisateur manquant');
+        alert('ID du destinataire ou de l\'utilisateur manquant');
+        return;
+    }
+
+    fetch(`/messages/get_messages/?recipientId=${recipientId}&userId=${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur réseau : ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            console.error('Erreur serveur:', data.error);
+            alert('Une erreur est survenue lors de la récupération des messages.');
+            return;
+        }
+
+        const messages = data.messages;
+        const messagesContainer = document.getElementById('messages-container');
+        messagesContainer.innerHTML = ''; // Efface les anciens messages
+
+        if (messages.length === 0) {
+            messagesContainer.innerHTML = '<p>Aucun message à afficher.</p>';
+        } else {
+            // Ajoute chaque message dans le conteneur
+            messages.forEach(message => {
+                console.log('Message:', message);
+
+                const isCurrentUser = parseInt(message.sender_id) === parseInt(userId);
+                console.log(`isCurrentUser (sender_id: ${message.sender_id} === userId: ${userId}):`, isCurrentUser);
+
+                const messagePosition = isCurrentUser ? 'chat-message-right mb-4' : 'chat-message-left pb-4';
+                const avatarSrc = isCurrentUser ? 'https://bootdey.com/img/Content/avatar/avatar1.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png';
+                const senderName = isCurrentUser ? 'You' : message.sender;
+                const messageClass = isCurrentUser ? 'mr-3' : 'ml-3';
+
+                const messageDate = new Date(message.created_at);
+                const hours = messageDate.getHours();
+                const minutes = messageDate.getMinutes();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                const formattedTime = `${hours % 12 || 12}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+
+                const messageHTML = `
+                <div class="${messagePosition}" data-message-id="${message.id}">
+                    <div>
+                        <img src="${avatarSrc}" class="rounded-circle mr-1" alt="${senderName.trim()}" width="40" height="40">
+                        <div class="text-muted small text-nowrap mt-2">${formattedTime}</div>
+                    </div>
+                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 ${messageClass}">
+                        <div class="font-weight-bold mb-1">${senderName}</div>
+                        <div class="message-content">${message.content.trim()}</div>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-warning" onclick="editMessage(${message.id})">Modifier</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteMessage(${message.id}, ${message.recip_id}, ${message.sender_id})">Supprimer</button>
+                        </div>
+                    </div>
+                </div>
+                `;
+                messagesContainer.innerHTML += messageHTML;
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors du chargement des messages:', error.message);
+        alert('Une erreur est survenue lors du chargement des messages.');
+    });
+}
+
+function searchMessages() {
+    const searchQuery = document.getElementById('searchBox').value.toLowerCase();
+    const messagesContainer = document.getElementById('messages-container');
+    const messageElements = messagesContainer.getElementsByClassName('chat-message-left');
+    const messageElementsRight = messagesContainer.getElementsByClassName('chat-message-right');
+
+    // Convertir les éléments en tableau pour la recherche
+    const allMessages = [...messageElements, ...messageElementsRight];
+    
+    for (let message of allMessages) {
+        const content = message.querySelector('.message-content').innerText.toLowerCase();
+        if (content.includes(searchQuery)) {
+            message.style.display = 'block'; // Affiche le message s'il correspond à la recherche
+        } else {
+            message.style.display = 'none'; // Cache le message s'il ne correspond pas
+        }
+    }
+}
+
+
+</script>
+
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .button-add, .button-delete {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .button-add:hover {
+      background-color: #45a049;
+    }
+
+    .button-delete {
+      background-color: #e74c3c;
+    }
+
+    .button-delete:hover {
+      background-color: #c0392b;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: #ddd;
+      margin: 40px 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Produits</h1>
+
+<form method="post" action="{% url 'click_button_add_to_commande' %}">
+  {% csrf_token %}
+  <table>
+    <tr>
+      <th>Nom</th>
+      <th>Description</th>
+      <th>Quantité</th>
+      <th>Prix</th>
+      <th>Date de Publication</th>
+      <th>Date Expiration</th>
+      <th>Acheter ?</th>
+    </tr>
+    {% for x in produits %}
+      <tr>
+        <td>{{ x.nom_produit }} </td>
+        <td>{{ x.description_produit }}</td>
+        <td>{{ x.quantite_produit }}</td>
+        <td>{{ x.prix_produit }}</td>
+        <td>{{ x.date_publication_produit }}</td>
+        <td>{{ x.date_expiration_produit }}</td>
+        <td>
+          <input type="hidden" name="produit_id" value="{{ x.id }}">
+          <button type="submit" class="button-add" name="button_table_summ" value="button_table_summ">Add</button>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</form>
+
+<hr>
+
+<h1>Commandes</h1>
+
+<table>
+  <tr>
+    <th>Date de Commande</th>
+    <th>Date de Livraison</th>
+    <th>Méthode de Livraison</th>
+    <th>Adresse de Livraison</th>
+    <th>Quantité de Commande</th>
+    <th>Supprimer</th>
+    <th>Modifier</th>
+  </tr>
+  {% for x in commandes %}
+    <tr>
+      <td>{{ x.date_commande }}</td>
+      <td>{{ x.date_livraison }}</td>
+      <td>{{ x.methode_livraison }}</td>
+      <td>{{ x.adresse_livraison }}</td>
+      <td>{{ x.quantite_commande }}</td>
+      <td>
+        <form method="post" action="{% url 'delete_commande' x.id %}">
+  {% csrf_token %}
+  <button type="submit" class="button-delete">Delete</button>
+</form>
+      </td>
+
+        <td>
+    <a href="{% url 'edit_commande' x.id %}" class="button-edit">Edit</a>
+</td>
+
+    </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>
