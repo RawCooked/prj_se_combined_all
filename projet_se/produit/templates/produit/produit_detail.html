@@ -1,0 +1,205 @@
+
+<!-- <h1>Bienvenue {{ user.first_name }} !</h1>
+<p>Vous êtes un user.</p> -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}  
+    {% include 'produit/header.html' %}
+</head>
+<body>
+    <!-- Navbar start -->
+    <div class="container-fluid fixed-top">
+        
+        <div class="container topbar bg-primary d-none d-lg-block">
+            
+            <div class="d-flex justify-content-between">
+                
+                <div class="top-info ps-2">
+                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
+                </div>
+                <div class="top-link pe-2">
+
+                    <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                
+                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Beat</h1></a>
+                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars text-primary"></span>
+                </button>
+                <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto">
+                        <a href="{% url 'client_dashboard' %}" class="nav-item nav-link ">Home</a>
+                        <a href="{% url 'shop' %}"class="nav-item nav-link active">Products</a>
+                        <a href="{% url 'evaluation_list' %}" class="nav-item nav-link ">Reviews</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                <a href="cart.html" class="dropdown-item">Cart</a>
+                                <a href="chackout.html" class="dropdown-item">Chackout</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        {% load static %}
+
+                        <a href="{% url 'messages_list' %}"class="nav-item nav-link">Messages</a>
+                    </div>
+                    <div class="d-flex m-3 me-0">
+                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                        <a href="#" class="position-relative me-4 my-auto">
+                            <i class="fa fa-shopping-bag fa-2x"></i>
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                        </a>
+                        <a href="#" class="my-auto">
+                            <i class="fas fa-user fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">Products</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+            <li class="breadcrumb-item active text-white">Product details</li>
+        </ol>
+    </div>
+
+    <!-- Single Product Start -->
+    <div class="container-fluid py-5 mt-5">
+        <div class="container py-5">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-8 col-xl-9">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="border rounded">
+                                <a href="#">
+                                    <img src="{{ produit.image_produit.url }}" class="img-fluid rounded" alt="Image du produit">
+                                </a>
+                            </div>
+                        </div>                        
+                        <div class="col-lg-6">
+                            <h4 class="fw-bold mb-3">{{ produit.nom_produit }}</h4>
+                            <p class="mb-3">Category: {{ produit.categorie_produit }}</p>
+                            <h5 class="fw-bold mb-3">{{ produit.prix_produit }} DT</h5>
+                            <div class="d-flex mb-4">
+                                <i class="fa fa-star text-secondary"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <p class="mb-4">Description: {{ produit.description_produit }}</p>
+                            <p class="mb-4">Supplier: {{ produit.fournisseur_produit }}</p>
+                            {% if moyenne %}
+            <p class="mb-4">Note moyenne : {{ moyenne|floatformat:2 }} / 5</p>
+        {% else %}
+            <p>Aucune évaluation pour ce produit.</p>
+        {% endif %}
+                            <div class="input-group quantity mb-5" style="width: 100px;">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control form-control-sm text-center border-0" value="1">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'produit_list' %}" class="bbtn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary me-2">←</a>
+
+
+
+                                <a href="{% url 'add_to_cart' produit.id %}"class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary me-2" > Add </a>
+                                <a href="{% url 'produit_update' produit.id %}" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary me-2">Modify</a>
+                                
+                                
+                                <form action="{% url 'produit_delete' produit.id %}" method="post" class="inline-form me-2">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">Delete</button>
+                                </form>
+                                <form method="get" action="{% url 'evaluation_create' produit.id %}" class="inline-form me-2">
+                                    <button type="submit" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">Evaluate</button>
+                                </form>
+                                
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-3">
+                    <div class="row g-4 fruite">
+                        <div class="col-lg-12">
+                            <div class="mb-4">
+                                <h4>Categories</h4>
+                                <ul class="list-unstyled fruite-categorie">
+                                    <li>
+                                        <div class="d-flex justify-content-between fruite-name">
+                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
+                                            <span>(3)</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Single Product End -->
+   
+<!-- *******************EVALUATION******************* -->
+<h3 style="font-size: 24px; color: #333; margin-bottom: 20px;">Commentaires :</h3>
+{% for evaluation in produit.evaluation_set.all %}
+    <div style="padding: 15px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; background-color: #f9f9f9;">
+        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+            <!-- Profile Picture -->
+            <img src="{{ evaluation.utilisateur.profile_picture.url }}" alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+            
+            <!-- User's Name -->
+            <strong style="font-size: 16px; color: #555;">{{ evaluation.utilisateur.first_name }} {{ evaluation.utilisateur.last_name }}</strong>
+        </div>
+        
+        <!-- Comment -->
+        <p style="margin: 10px 0; font-size: 14px; color: #666;">{{ evaluation.commentaire }}</p>
+        
+        <!-- Star Rating -->
+        <p style="font-size: 14px; color: #888;">
+            Note : 
+            {% for i in 1..5 %}
+                <i class="fa fa-star {% if i <= evaluation.note %}text-warning{% else %}text-muted{% endif %}" style="font-size: 18px;"></i>
+            {% endfor %}
+        </p>
+    </div>
+{% empty %}
+    <p style="font-size: 16px; color: #999;">Aucun commentaire pour le moment.</p>
+{% endfor %}
+
+</form>
+    <footer>
+
+        {% include 'produit/footer.html' %}
+
+        Contactez-nous : <a href="mailto:Beat@gmail.com">Beat@gmail.com</a>
+    </footer>
+
+</body>
+</html>

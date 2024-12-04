@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    {% load static %}
+    <title>Liste des utilisateurs</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #89be24;
+            margin-bottom: 20px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #89be24;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #89be24;
+            font-size: 1.1rem;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #28a745;
+        }
+
+        .navbar .top-info small {
+            color: #fff;
+            margin-right: 15px;
+        }
+
+        /* Search Bar Styles */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 300px;
+            padding: 10px;
+            border-radius: 20px;
+            border: 2px solid #89be24;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: #668e1a;
+            box-shadow: 0 0 5px rgba(102, 142, 26, 0.5);
+        }
+
+        .search-bar button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #89be24;
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #668e1a;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        table th,
+        table td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        table tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #888;
+            margin-top: 20px;
+        }
+
+        /* Carousel Styles */
+        .carousel-inner .carousel-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .carousel-item a {
+            padding: 10px 20px;
+            background-color: #89be24;
+            color: #fff;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .carousel-item a:hover {
+            background-color: #28a745; /* Pistache au survol */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar start -->
+    <div class="navbar">
+        <div class="container">
+            <div class="top-info">
+                <small><i class="fas fa-map-marker-alt me-2 text-white"></i><a href="#" class="text-white">123 Street, Tunisia</a></small>
+                <small><i class="fas fa-envelope me-2 text-white"></i><a href="#" class="text-white">Fruitables@gmail.com</a></small>
+            </div>
+            <a href="{% url 'client_dashboard' %}" class="top-button">Retourner à la page d'accueil</a>
+        </div>
+    </div>
+    <!-- Navbar End -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <!-- Carousel Section (if needed) -->
+    <div id="carouselExample" class="carousel slide mt-5">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <!--<a href="#"></a>-->
+            </div>
+            <div class="carousel-item">
+               <!-- <a href="#"></a>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <h1>Liste des utilisateurs</h1>
+        <!-- Barre de recherche -->
+        <div class="search-bar">
+            <form method="get" action="{% url 'liste_users' %}">
+                <input type="text" name="query" placeholder="Rechercher par email..." value="{{ query }}">
+                <button type="submit">Rechercher</button>
+            </form>
+        </div>
+
+        <!-- Tableau des utilisateurs -->
+        {% if users.exists %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.first_name }}</td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <a href="{% url 'profil_user' user.email %}">
+                                    <button>Profil</button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="no-results">Aucun utilisateur trouvé.</p>
+        {% endif %}
+    </div>
+
+  
+    </body>
+
+</html>
