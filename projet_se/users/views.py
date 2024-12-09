@@ -525,3 +525,22 @@ def accept(request,id):
     
 
     return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+
+
+@login_required
+def search_view(request):
+    trkcode = request.GET.get('trkcode', '')  # Get the search term from the query parameters
+    results = []  # Replace with your search logic
+    if trkcode:
+        # Perform your search logic here, e.g., filter Livraison objects
+        results = Livraison.objects.filter(tracking_number__icontains=trkcode)
+    else:
+        results = Livraison.objects.all()
+        
+    is_admin = True  # Check if the user is an admin (example condition)
+
+    context = {
+        'livraisons': results,
+        'is_admin': is_admin,
+    }
+    return render(request, 'users/livraison.html', context)

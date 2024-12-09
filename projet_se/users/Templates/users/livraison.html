@@ -113,8 +113,12 @@
                         <div class="row g-4">
                             <div class="col-xl-3">
                                 <div class="input-group w-100 mx-auto d-flex">
-                                    <input type="search" class="form-control p-3" placeholder="TRK####" aria-describedby="search-icon-1">
-                                    <a href={% url 'livraisons' %} id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></a>
+                                    <form action="{% url 'search' %}" method="get" class="w-100 d-flex">
+                                        <input type="search" name="trkcode" class="form-control p-3" placeholder="TRK####" aria-label="Search" aria-describedby="search-icon-1">
+                                        <button type="submit" id="search-icon-1" class="input-group-text p-3">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-6"></div>

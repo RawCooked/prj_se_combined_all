@@ -6,14 +6,14 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('client_dashboard/', views.client_dashboard, name='client_dashboard'),
     path('etablissement_dashboard/', views.etablissement_dashboard, name='etablissement_dashboard'),
-        path('messages/', views.messages_list_view, name='messages_list'),
-            path('shop/', views.shop_view, name='shop'),
-            path('Evaluation/', views.ev_list_view, name='ev'),
-            path('update_client/', views.update_client, name='update_client'),
-            path('list_users/', views.liste_users, name='liste_users'),
-            path('profile/', views.profile, name='profile'),
-            path('profil/<str:email>/', views.profil_user, name='profil_user'),
-                path('add_to_cart/<int:produit_id>/', views.add_to_cart, name='add_to_cart'),
+    path('messages/', views.messages_list_view, name='messages_list'),
+    path('shop/', views.shop_view, name='shop'),
+    path('Evaluation/', views.ev_list_view, name='ev'),
+    path('update_client/', views.update_client, name='update_client'),
+    path('list_users/', views.liste_users, name='liste_users'),
+    path('profile/', views.profile, name='profile'),
+    path('profil/<str:email>/', views.profil_user, name='profil_user'),
+    path('add_to_cart/<int:produit_id>/', views.add_to_cart, name='add_to_cart'),
     path('commande_dashboard/', views.commande_dashboard, name='commande_dashboard'),
     path('delete_command/<int:id>/', views.delete_command, name='delete_command'),
     path('process_checkout/', views.process_checkout, name='process_checkout'),
@@ -26,6 +26,8 @@ urlpatterns = [
     path('switch/<int:id>/',views.switch,name='switch'),
     path('delete/<int:id>/',views.delete,name='delete'),
     path('accept/<int:id>/',views.accept,name='accept'),
+    path('search/', views.search_view, name='search'),
+
 
     
 
