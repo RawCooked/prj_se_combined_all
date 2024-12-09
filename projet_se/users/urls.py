@@ -22,7 +22,12 @@ urlpatterns = [
     path('save_user_purchases/',views.save_user_purchases,name='save_user_purchases'),
     path('remove_quantity/<int:id>/',views.remove_quantity,name='remove_quantity'),
     path('add_quantity/<int:id>/',views.add_quantity,name='add_quantity'),
+    path('livraisons/',views.livraisons,name='livraisons'),
+    path('switch/<int:id>/',views.switch,name='switch'),
+    path('delete/<int:id>/',views.delete,name='delete'),
+    path('accept/<int:id>/',views.accept,name='accept'),
 
+    
 
 
     

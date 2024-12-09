@@ -77,6 +77,7 @@ from django.contrib.auth.models import User
 
 
 
+
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -128,33 +129,6 @@ def login_view(request):
         form = EmailAuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
 
-@login_required
-def client_dashboard(request):
-    produits = Produit.objects.all()
-    user_orders_count = Commande.objects.filter(user_commande=request.user, is_ordered=False).count()
-
-    
-    if request.method == 'POST':
-        form = CommandeForm(request.POST)
-        if form.is_valid():
-            commande = form.save(commit=False)
-            commande.user_commande = request.user  # Assign the logged-in user
-            commande.save()
-            form.save_m2m()  # Save ManyToMany relationships
-            messages.success(request, "Your command has been added successfully!")
-            return redirect('client_dashboard')  # Redirect back to the dashboard
-        else:
-            messages.error(request, "There was an error in your submission.")
-    else:
-        form = CommandeForm()
-
-    context = {
-        'count':user_orders_count,
-        'produits': produits,
-        'form': form,  # Pass the form to the template
-    }
-
-    return render(request, 'users/client_dashboard.html', context)
 
 @login_required
 def commande_dashboard(request):
@@ -275,6 +249,11 @@ def click_button_summ(request):
     for comm in commande :
         comm.is_ordered=True
         comm.save()
+    
+        Livraison.objects.create(
+                commande=comm,
+                state=Livraison.DeliveryState.PENDING  # Default state is pending
+            )
       
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -453,4 +432,96 @@ def profil_user(request, email):
 
 
 
+from livraison.models import Livraison
 
+
+@login_required
+def livraisons(request):
+    livraisons = Livraison.objects.filter(commande__user_commande=request.user)
+    #livraisons = Livraison.objects.filter(  )
+    is_admin = True # Example condition to check if the user is admin
+
+    context = {
+        'livraisons': livraisons,
+        'is_admin': is_admin,
+    }
+    return render(request, 'users/livraison.html', context)
+
+@login_required
+def client_dashboard(request):
+    produits = Produit.objects.all()
+    user_orders_count = Commande.objects.filter(user_commande=request.user, is_ordered=False).count()
+
+    
+    if request.method == 'POST':
+        form = CommandeForm(request.POST)
+        if form.is_valid():
+            commande = form.save(commit=False)
+            commande.user_commande = request.user  # Assign the logged-in user
+            commande.save()
+            form.save_m2m()  # Save ManyToMany relationships
+            messages.success(request, "Your command has been added successfully!")
+            return redirect('client_dashboard')  # Redirect back to the dashboard
+        else:
+            messages.error(request, "There was an error in your submission.")
+    else:
+        form = CommandeForm()
+
+    context = {
+        'count':user_orders_count,
+        'produits': produits,
+        'form': form,  # Pass the form to the template
+    }
+
+    return render(request, 'users/client_dashboard.html', context)
+
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def switch(request, id):
+    # Retrieve the specific Livraison object or return 404 if not found
+    livraison = get_object_or_404(Livraison, id=id)
+    
+    # Define the states in the order of transition
+    state_order = [
+        Livraison.DeliveryState.PENDING,
+        Livraison.DeliveryState.IN_TRANSIT,
+        Livraison.DeliveryState.DELIVERED,
+        Livraison.DeliveryState.FAILED,
+    ]
+    
+    # Get the index of the current state and determine the next state
+    current_index = state_order.index(livraison.state)
+    next_index = (current_index + 1) % len(state_order)  # Loop back to the first state if at the end
+    livraison.state = state_order[next_index]
+    
+    # Save the changes
+    livraison.save()
+    
+    # Redirect back to the referring page or to a default URL
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+
+@login_required
+def delete(request,id):
+
+    livraison = get_object_or_404(Livraison, id=id)
+    
+    # Delete the object
+    livraison.delete()
+    
+
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+
+
+@login_required
+def accept(request,id):
+
+    livraison = get_object_or_404(Livraison, id=id)
+    
+    # Delete the object
+    livraison.delete()
+    
+
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))

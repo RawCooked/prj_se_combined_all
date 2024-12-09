@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'produit',
     'commande',
      'messages_app',
+     'livraison'
 ]
 
 MIDDLEWARE = [
